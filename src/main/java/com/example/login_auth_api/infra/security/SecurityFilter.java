@@ -20,10 +20,8 @@ import java.util.Collections;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-
     @Autowired
     TokenService tokenService;
-
     @Autowired
     UserRepository userRepository;
 
@@ -41,10 +39,9 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private Object recoverToken(HttpServletRequest request) {
+    private String recoverToken(HttpServletRequest request){
         var authHeader = request.getHeader("Authorization");
-        if (authHeader == null) return null;
-        return authHeader.replace("Bearer", "");
-        
+        if(authHeader == null) return null;
+        return authHeader.replace("Bearer ", "");
     }
 }
